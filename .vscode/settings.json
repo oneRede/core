@@ -1,5 +1,13 @@
 {
     "files.associations": {
-        "sbi_console.h": "c"
+        "sbi_console.h": "c",
+        "signal.h": "c",
+        "execinfo.h": "c",
+        "features.h": "c",
+        "stddef.h": "c",
+        "stdlib.h": "c",
+        "stdarg.h": "c",
+        "stdio.h": "c",
+        "cstdlib": "cpp"
     }
 }

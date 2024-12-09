@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/code/opensbi/include/**"
+                "/code/opensbi/include/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/kernel/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/riscv64-linux-gnu-gcc",

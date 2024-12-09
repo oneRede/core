@@ -1,2 +1,2 @@
-os.bin
-os.elf
+kernel/os.bin
+kernel/os.elf

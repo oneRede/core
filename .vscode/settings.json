@@ -1,13 +1,23 @@
 {
     "files.associations": {
-        "sbi_console.h": "c",
-        "signal.h": "c",
-        "execinfo.h": "c",
-        "features.h": "c",
-        "stddef.h": "c",
-        "stdlib.h": "c",
+        "usyscall.h": "c",
+        "lib.h": "c",
         "stdarg.h": "c",
-        "stdio.h": "c",
-        "cstdlib": "cpp"
+        "syscall.h": "c"
     }
-}
+} // {
+//     "files.associations": {
+//         "sbi_console.h": "c",
+//         "signal.h": "c",
+//         "execinfo.h": "c",
+//         "features.h": "c",
+//         "stddef.h": "c",
+//         "stdlib.h": "c",
+//         "stdarg.h": "c",
+//         "stdio.h": "c",
+//         "cstdlib": "cpp",
+//         "uconsole.h": "c",
+//         "usyscall.h": "c",
+//         "type.h": "c"
+//     }
+// }

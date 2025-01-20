@@ -1,4 +1,3 @@
-#include "type.h"
 #include <lib.c>
 
 const int SIZE = 10;

@@ -1,22 +1,23 @@
 # OS
-CC := riscv64-linux-gnu-gcc
+CC := riscv64-unknown-elf-gcc
 QEMU := qemu-system-riscv64
 
 QEMU_ARGS := -machine virt \
 			 -nographic \
 			 -bios default \
-			 -kernel ./build/os.bin
+			 -kernel ./target/os.bin
 
-run: build kernel
-	$(QEMU) $(QEMU_ARGS)
+run: clean build kernel
+	$(QEMU) $(QEMU_ARGS) > log/out.log
 
 build:
-	$(CC) -I include -ffreestanding -fno-pie -nostdlib -mno-relax -fno-builtin -mcmodel=medany -mabi=lp64 -T ./asm/linker-qemu.ld -o ./build/os.elf ./asm/entry.s sbi.c console.c main.c
+	$(CC) -I include -march=rv64gc_zifencei -ffreestanding -fno-pie -nostdlib -mno-relax -fno-builtin -mcmodel=medany -mabi=lp64 -T ./asm/linker-qemu.ld -o ./target/os.elf ./asm/entry.s ./asm/link_app.s ./asm/trap.s main.c trap/*.c syscall/*.c batch.c sbi.c console.c utils.c
 
-kernel:
-	/usr/riscv64-linux-gnu/bin/objcopy  -O binary ./build/os.elf  ./build/os.bin
+kernel: build
+	/usr/riscv64-linux-gnu/bin/objcopy  -O binary ./target/os.elf  ./target/os.bin
 
 clean:
 	rm -rf ./build/*
+	rm -rf ./log/*
 .PHONY:
 	build kernel run clean

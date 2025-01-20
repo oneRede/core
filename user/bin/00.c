@@ -1,7 +1,12 @@
-#include <lib.c>
+#include "syscall.h"
+#include "console.h"
 
-int main()
+int _start() __attribute__((section(".text.entry")));
+
+int _start ()
 {
-    printf("Hello, world!");
+    int num = 1234567890;
+    println("num is: %d", num);
+    sys_exit(0);
     return 0;
 }

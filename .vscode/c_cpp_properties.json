@@ -3,10 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/code/opensbi/include/**",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/kernel/include"
+                "${workspaceFolder}/user"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/riscv64-linux-gnu-gcc",

@@ -21,7 +21,7 @@ int inline sbi_call(u64 which, u64 arg0, u64 arg1, u64 arg2)
     return a0;
 }
 
-void console_putchar(int c)
+void console_putchar(char c)
 {
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }

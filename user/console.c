@@ -1,27 +1,8 @@
 #include "type.h"
-#include "usyscall.h"
-#include <stdarg.h>
+#include "syscall.h"
+#include "args.h"
 
-const usize STDOUT_C = 1;
-
-typedef struct
-{
-    isize (*write_str)(char *s, usize len);
-} STDOUT;
-
-isize write(char *s, usize len)
-{
-    sys_write(STDOUT_C, s, len);
-};
-
-isize putchar(char *s)
-{
-    sys_write(STDOUT_C, s, 1);
-};
-
-STDOUT stdout = {write};
-
-char int2string(int num, char *str)
+void int2string(int num, char *str)
 {
     int i = 0;
     if (num < 0)
@@ -48,19 +29,14 @@ char int2string(int num, char *str)
         str[i - 1 - j] = str[j] - str[i - 1 - j];
         str[j] = str[j] - str[i - 1 - j];
     }
-
-    return str;
 }
 
-void print(char *s, usize len)
-{
-    stdout.write_str(s, len);
-}
-
-void print(const char *format, ...)
+void print(char *format, ...)
 {
     va_list arg;
     va_start(arg, format);
+    char a_str[1024];
+    char* str = a_str;
 
     while (*format)
     {
@@ -71,8 +47,9 @@ void print(const char *format, ...)
             {
             case 'c':
             {
-                char ch = va_arg(arg, char);
-                putchar(ch);
+                char ch = va_arg(arg, int);
+                *(str++) = ch;
+                format++;
                 break;
             }
             case 's':
@@ -80,21 +57,22 @@ void print(const char *format, ...)
                 char *pc = va_arg(arg, char *);
                 while (*pc)
                 {
-                    putchar(*pc);
-                    pc++;
+                    *(str++) = *(pc++);
                 }
                 break;
             }
             case 'd':
-            {   
+            {
                 int d = va_arg(arg, int);
-                char* s;
+                char s[128] = {'0'};
                 int2string(d, s);
-                while (*s)
+                int i = 0;
+                while (s[i] != '\0')
                 {
-                    putchar(*s);
-                    s++;
+                    *(str++) = s[i];
+                    i++;
                 }
+                format++;
                 break;
             }
             default:
@@ -103,17 +81,19 @@ void print(const char *format, ...)
         }
         else
         {
-            putchar(*format);
+            *(str++) = *(format++);
         }
-        format++;
     }
     va_end(arg);
+    sys_write(1, a_str);
 }
 
-void printf(const char *format, ...)
+void println(char *format, ...)
 {
     va_list arg;
     va_start(arg, format);
+    char a_str[1024];
+    char* str = a_str;
 
     while (*format)
     {
@@ -124,8 +104,9 @@ void printf(const char *format, ...)
             {
             case 'c':
             {
-                char ch = va_arg(arg, char);
-                putchar(ch);
+                char ch = va_arg(arg, int);
+                *(str++) = ch;
+                format++;
                 break;
             }
             case 's':
@@ -133,21 +114,22 @@ void printf(const char *format, ...)
                 char *pc = va_arg(arg, char *);
                 while (*pc)
                 {
-                    putchar(*pc);
-                    pc++;
+                    *(str++) = *(pc++);
                 }
                 break;
             }
             case 'd':
-            {   
+            {
                 int d = va_arg(arg, int);
-                char* s;
+                char s[128] = {'0'};
                 int2string(d, s);
-                while (*s)
+                int i = 0;
+                while (s[i] != '\0')
                 {
-                    putchar(*s);
-                    s++;
+                    *(str++) = s[i];
+                    i++;
                 }
+                format++;
                 break;
             }
             default:
@@ -156,10 +138,10 @@ void printf(const char *format, ...)
         }
         else
         {
-            putchar(*format);
+            *(str++) = *(format++);
         }
-        format++;
     }
-    putchar('\n');
     va_end(arg);
+    *(str++) = '\n';
+    sys_write(1, a_str);
 }

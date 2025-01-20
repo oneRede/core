@@ -1,5 +1,4 @@
 OUTPUT_ARCH(riscv)
-ENTRY(_start)
 BASE_ADDRESS = 0x80200000;
 
 SECTIONS
@@ -9,7 +8,6 @@ SECTIONS
 
     stext = .;
     .text : {
-        *(.text.entry)
         *(.text .text.*)
     }
 
@@ -21,7 +19,6 @@ SECTIONS
         *(.srodata .srodata.*)
     }
     
-
     . = ALIGN(4K);
     erodata = .;
     sdata = .;

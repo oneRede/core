@@ -10,6 +10,9 @@
 #define APP_BASE_ADDRESS 0x80400000
 #define APP_SIZE_LIMIT 0x20000
 
+extern void _num_app();
+extern int __restore(usize cx_addr);
+
 typedef struct
 {
     usize num_app;
@@ -41,10 +44,10 @@ usize get_kernel_sp()
     return (usize)&KERNEL_STACK.data + KERNEL_STACK_SIZE;
 };
 
-TrapContext* push_kernel_context(TrapContext cx)
+TrapContext *push_kernel_context(TrapContext cx)
 {
-    TrapContext *cx_ptr;
-    cx_ptr = (TrapContext *)(get_kernel_sp() - sizeof(TrapContext));
+    
+    TrapContext* cx_ptr = (TrapContext *)(get_kernel_sp() - sizeof(TrapContext));
     *cx_ptr = cx;
     return cx_ptr;
 }
@@ -67,20 +70,19 @@ void print_app_info()
 }
 void load_app(usize app_id)
 {
-    if (app_id > AM.num_app)
+    if (app_id > AM.num_app - 1)
     {
         println("All applications completed!");
+        println("[Kernel] ShutDown!!");
         shutdown();
     }
     println("[kernel] Loading app_%d", app_id);
-    u8 *ptr_app_base;
-    ptr_app_base = (u8 *)APP_BASE_ADDRESS;
+    u8 * ptr_app_base = (u8 *)APP_BASE_ADDRESS;
     memset(ptr_app_base, 0, APP_SIZE_LIMIT);
-    u8 *app_src;
-    app_src = (u8 *)(AM.app_start[app_id]);
+    u8 * app_src = (u8 *)(AM.app_start[app_id]);
 
     memcpy(ptr_app_base, app_src, AM.app_start[app_id + 1] - AM.app_start[app_id]);
-    asm volatile ("fence.i" :::);
+    asm volatile("fence.i" :::);
 }
 
 usize get_current_app()
@@ -93,20 +95,16 @@ void move_to_next_app()
     AM.current_app += 1;
 }
 
-extern void _num_app();
-extern int __restore(usize cx_addr);
-
 void print_init_info()
 {
-    usize* num_app_ptr =(usize*) (_num_app);
+    usize *num_app_ptr = (usize *)(_num_app);
     usize num_app = *num_app_ptr;
-    usize start1 = *(usize*)(_num_app + 8);
-    usize end1 = *(usize*)(_num_app + 16);
-    
-    memcpy(&AM.app_start, num_app_ptr+1, 8*(num_app+1));
+    usize start1 = *(usize *)(_num_app + 8);
+    usize end1 = *(usize *)(_num_app + 16);
+
+    memcpy(&AM.app_start, num_app_ptr + 1, 8 * (num_app + 1));
 
     AM.num_app = num_app;
-    AM.current_app = 0;
     print_app_info();
 }
 

@@ -8,7 +8,7 @@ QEMU_ARGS := -machine virt \
 			 -kernel ./target/os.bin
 
 run: clean build kernel
-	$(QEMU) $(QEMU_ARGS) > log/out.log
+	$(QEMU) $(QEMU_ARGS)
 
 build:
 	$(CC) -I include -march=rv64gc_zifencei -ffreestanding -fno-pie -nostdlib -mno-relax -fno-builtin -mcmodel=medany -mabi=lp64 -T ./asm/linker-qemu.ld -o ./target/os.elf ./asm/entry.s ./asm/link_app.s ./asm/trap.s main.c trap/*.c syscall/*.c batch.c sbi.c console.c utils.c

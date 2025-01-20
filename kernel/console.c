@@ -33,23 +33,30 @@ void int2string(usize num, char *str)
     }
 }
 
-void usize2hex(usize value, char* buffer) {
-    if (value == 0) {
+void usize2hex(usize value, char *buffer)
+{
+    if (value == 0)
+    {
         buffer[0] = '0';
         return;
     }
 
     int i = 0;
 
-    while (value > 0) {
+    while (value > 0)
+    {
         int remainder = value % 16;
         buffer[i++] = (remainder < 10) ? ('0' + remainder) : ('A' + remainder - 10);
         value /= 16;
     }
 
-    buffer[i] = '\0';
+    buffer[i++] = 'x';
+    buffer[i++] = '0';
+    buffer[i++] = '\0';
 
-    for (int j = 0, k = i - 1; j < k; j++, k--) {
+
+    for (int j = 0, k = i - 2; j < k; j++, k--)
+    {
         char temp = buffer[j];
         buffer[j] = buffer[k];
         buffer[k] = temp;
@@ -87,7 +94,7 @@ void print(char *format, ...)
             }
             case 'x':
             {
-                int d = va_arg(arg, int);
+                usize d = va_arg(arg, usize);
                 char s[20];
                 usize2hex(d, s);
                 int i = 0;
@@ -156,9 +163,9 @@ void println(char *format, ...)
             }
             case 'x':
             {
-                int d = va_arg(arg, usize);
+                usize d = va_arg(arg, usize);
                 char s[20];
-                char* sp = s;
+                char *sp = s;
                 usize2hex(d, s);
                 while (*sp)
                 {
@@ -171,7 +178,7 @@ void println(char *format, ...)
             {
                 int d = va_arg(arg, usize);
                 char s[20];
-                char* sp = s;
+                char *sp = s;
                 int2string(d, s);
                 while (*sp)
                 {

@@ -18,5 +18,6 @@ int os_main()
     trap_init();
     batch_init();
     run_next_app();
+    println("[Kernel] ShutDown!!");
     shutdown();
 }

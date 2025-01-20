@@ -1,2 +1,2 @@
-kernel/os.bin
-kernel/os.elf
+kernel/target/*
+user/target/*

@@ -2,7 +2,7 @@
 #include "console.h"
 #include "trap/trap.h"
 #include "batch.h"
-#include "utils.h"
+#include "mem_opt.h"
  
 extern int ebss();
 extern int sbss();

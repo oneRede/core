@@ -2,7 +2,7 @@
 #include "sbi.h"
 #include "trap/context.h"
 #include "console.h"
-#include "utils.h"
+#include "mem_opt.h"
 
 #define USER_STACK_SIZE 4096 * 2
 #define KERNEL_STACK_SIZE 4096 * 2

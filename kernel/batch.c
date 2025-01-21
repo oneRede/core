@@ -116,7 +116,6 @@ void batch_init()
 void run_next_app()
 {
     usize current_app = get_current_app();
-    println("[kernel] Current app: %d", current_app);
     load_app(current_app);
     move_to_next_app();
 

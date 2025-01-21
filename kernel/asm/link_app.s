@@ -22,26 +22,26 @@ app_0_end:
     .global app_1_start
     .global app_1_end
 app_1_start:
-    .incbin "../../user/target/00.bin"
+    .incbin "../../user/target/01.bin"
 app_1_end:
 
     .section .data
     .global app_2_start
     .global app_2_end
 app_2_start:
-    .incbin "../../user/target/00.bin"
+    .incbin "../../user/target/02.bin"
 app_2_end:
 
     .section .data
     .global app_3_start
     .global app_3_end
 app_3_start:
-    .incbin "../../user/target/00.bin"
+    .incbin "../../user/target/03.bin"
 app_3_end:
 
     .section .data
     .global app_4_start
     .global app_4_end
 app_4_start:
-    .incbin "../../user/target/00.bin"
+    .incbin "../../user/target/04.bin"
 app_4_end:

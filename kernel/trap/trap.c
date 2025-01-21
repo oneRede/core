@@ -33,6 +33,7 @@ TrapContext *trap_handler(TrapContext *cx)
         cx->x[10] = sysycall(cx->x[17], args);
         break;
     }
+    case 7:
     case 15:
     {
         println("[kernel] PageFault in application, kernel killed it.");

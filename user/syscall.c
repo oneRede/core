@@ -24,22 +24,26 @@ isize sys_write(usize fd, char *buffer)
 {
     int i = 0;
     char *buf = buffer;
-    while (*buffer != '\0')
+    while (*buf != '\0')
     {
-        buffer++;
+        buf++;
         i++;
     }
-    asm volatile(
-        "li a0, 1\n"
-        "mv a1, %0\n"
-        "mv a2, %1\n"
-        "li a7, 64\n"
-        "ecall\n"
-        :
-        : "r"(buf), "r"(i)
-        : "a0", "a1", "a2", "a7");
 
-    return 0;
+    isize result;
+    asm volatile (
+        "mv a0, %1\n"    // 将文件描述符加载到a0寄存器
+        "mv a1, %2\n"    // 将缓冲区指针加载到a1寄存器
+        "mv a2, %3\n"    // 将字节数加载到a2寄存器
+        "li a7, 64\n"    // 将系统调用号64加载到a7寄存器
+        "ecall\n"        // 触发系统调用
+        "mv %0, a0\n"    // 将返回值从a0寄存器加载到result
+        : "=r" (result)  // 输出操作数
+        : "r" (fd), "r" (buffer), "r" (i)  // 输入操作数
+        : "a0", "a1", "a2", "a7"  // 被修改的寄存器
+    );
+
+    return result;
 }
 
 isize sys_exit(i32 exit_code)
@@ -51,5 +55,6 @@ isize sys_exit(i32 exit_code)
         :
         : "r"(exit_code)
         : "a0", "a7");
+
     return 0;
 }

@@ -13,10 +13,12 @@ isize sysycall(usize syscall_id, usize args[3])
     case 64:
     {
         sys_write(args[0], (char*) args[1], args[2]);
+        break;
     }
     case 93:
     {
-        sys_exit(args[0]);
+        sys_exit((int)args[0]);
+        break;
     }
     }
 }

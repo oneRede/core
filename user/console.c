@@ -36,7 +36,11 @@ void print(char *format, ...)
     va_list arg;
     va_start(arg, format);
     char a_str[1024];
-    char* str = a_str;
+    char *str = a_str;
+    for (int i = 0; i < 1024; i++)
+    {
+        a_str[i] = 0;
+    }
 
     while (*format)
     {
@@ -93,7 +97,11 @@ void println(char *format, ...)
     va_list arg;
     va_start(arg, format);
     char a_str[1024];
-    char* str = a_str;
+    for (int i = 0; i < 1024; i++)
+    {
+        a_str[i] = 0;
+    }
+    char *str = a_str;
 
     while (*format)
     {
@@ -143,5 +151,6 @@ void println(char *format, ...)
     }
     va_end(arg);
     *(str++) = '\n';
+    *str = '\0';
     sys_write(1, a_str);
 }

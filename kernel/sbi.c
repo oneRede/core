@@ -1,9 +1,9 @@
 #include "type.h"
 #include "sbi.h"
 
-const u64 SBI_CONSOLE_PUTCHAR = 1;
-const u64 SBI_CONSOLE_GETCHAR = 2;
-const u64 SBI_SHUTDOWN = 8;
+#define SBI_CONSOLE_PUTCHAR 1
+#define SBI_CONSOLE_GETCHAR 2
+#define SBI_SHUTDOWN 8
 
 int inline sbi_call(u64 which, u64 arg0, u64 arg1, u64 arg2)
 {

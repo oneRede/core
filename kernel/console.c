@@ -2,7 +2,7 @@
 #include "sbi.h"
 #include "args.h"
 
-const usize STDOUT_C = 1;
+#define STDOUT_C 1
 
 void int2string(usize num, char *str)
 {

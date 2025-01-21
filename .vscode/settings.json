@@ -4,7 +4,8 @@
         "lib.h": "c",
         "stdarg.h": "c",
         "syscall.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 } // {
 //     "files.associations": {
 //         "sbi_console.h": "c",

@@ -9,11 +9,25 @@ QEMU_ARGS := -machine virt \
 			 -bios default \
 			 -kernel $(KERNEL_BIN)
 
+CC_ARGS := -I include \
+           -march=rv64gc_zifencei \
+		   -ffreestanding \
+		   -fno-pie \
+		   -nostdlib \
+		   -mno-relax \
+		   -fno-builtin \
+		   -mcmodel=medany \
+		   -mabi=lp64
+
+SOURCE_FILE := ./asm/*.s main.c trap/*.c syscall/*.c batch.c sbi.c console.c mem_opt.c
+OUT_FILE := -o ./target/os.elf
+LINKER_FILE := -T ./asm/linker-qemu.ld
+
 all: clean build kernel
 	$(QEMU_NAME) $(QEMU_ARGS)
 
 build:
-	$(CC) -I include -march=rv64gc_zifencei -ffreestanding -fno-pie -nostdlib -mno-relax -fno-builtin -mcmodel=medany -mabi=lp64 -T ./asm/linker-qemu.ld -o ./target/os.elf ./asm/entry.s ./asm/link_app.s ./asm/trap.s main.c trap/*.c syscall/*.c batch.c sbi.c console.c mem_opt.c
+	$(CC) $(CC_ARGS)  $(OUT_FILE) $(LINKER_FILE) $(SOURCE_FILE)
 
 kernel: build
 	/usr/riscv64-linux-gnu/bin/objcopy  -O binary ./target/os.elf  ./target/os.bin

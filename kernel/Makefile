@@ -9,7 +9,7 @@ QEMU_ARGS := -machine virt \
 			 -bios default \
 			 -kernel $(KERNEL_BIN)
 
-run: clean build kernel
+all: clean build kernel
 	$(QEMU_NAME) $(QEMU_ARGS)
 
 build:

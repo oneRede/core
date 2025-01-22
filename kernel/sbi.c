@@ -5,12 +5,12 @@
 #define SBI_CONSOLE_GETCHAR 2
 #define SBI_SHUTDOWN 8
 
-int inline sbi_call(u64 which, u64 arg0, u64 arg1, u64 arg2)
+int inline sbi_call(usize sbi_id, usize arg0, usize arg1, usize arg2)
 {
-    register u64 a0 asm("a0") = arg0;
-    register u64 a1 asm("a1") = arg1;
-    register u64 a2 asm("a2") = arg2;
-    register u64 a7 asm("a7") = which;
+    register usize a0 asm("a0") = arg0;
+    register usize a1 asm("a1") = arg1;
+    register usize a2 asm("a2") = arg2;
+    register usize a7 asm("a7") = sbi_id;
 
     asm volatile(
         "ecall"

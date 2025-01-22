@@ -2,6 +2,8 @@
 
 #define SYSCALL_WRITE 64
 #define SYSCALL_EXIT 93
+#define SYSCALL_YIELD 124
+#define SYSCALL_GET_TIME 169
 
 isize syscall(usize syscall_id, usize arg1, usize arg2, usize arg3)
 {
@@ -40,4 +42,12 @@ isize sys_exit(i32 exit_code)
     isize result = syscall(SYSCALL_EXIT, 0, 0, 0);
 
     return result;
+}
+
+isize sys_yield() {
+    syscall(SYSCALL_YIELD, 0, 0, 0);
+}
+
+isize sys_get_time() {
+    syscall(SYSCALL_GET_TIME, 0, 0, 0);
 }

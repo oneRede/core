@@ -22,10 +22,10 @@ isize syscall(usize syscall_id, usize arg1, usize arg2, usize arg3)
     return result;
 }
 
-isize sys_write(usize fd, char *buffer)
+isize sys_write(usize fd, u8 *buffer)
 {
-    int i = 0;
-    char *buf = buffer;
+    i32 i = 0;
+    u8 *buf = buffer;
     while (*buf != '\0')
     {
         buf++;

@@ -1,11 +1,12 @@
+#include "type.h"
 #include "syscall.h"
 #include "console.h"
 
-int _start() __attribute__((section(".text.entry")));
+i32 _start() __attribute__((section(".text.entry")));
 
-int _start ()
+i32 _start ()
 {
-    int num = 1234567890;
+    i32 num = 1234567890;
     println("num is: %d", num);
     sys_exit(0);
     return 0;

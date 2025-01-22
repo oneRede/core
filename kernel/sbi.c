@@ -5,7 +5,7 @@
 #define SBI_CONSOLE_GETCHAR 2
 #define SBI_SHUTDOWN 8
 
-int inline sbi_call(usize sbi_id, usize arg0, usize arg1, usize arg2)
+i32 inline sbi_call(usize sbi_id, usize arg0, usize arg1, usize arg2)
 {
     register usize a0 asm("a0") = arg0;
     register usize a1 asm("a1") = arg1;
@@ -21,12 +21,12 @@ int inline sbi_call(usize sbi_id, usize arg0, usize arg1, usize arg2)
     return a0;
 }
 
-void console_putchar(char c)
+void console_putchar(u8 c)
 {
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }
 
-u64 console_getchar(int c)
+u64 console_getchar(i32 c)
 {
     sbi_call(SBI_CONSOLE_GETCHAR, 0, 0, 0);
 }

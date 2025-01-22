@@ -4,9 +4,9 @@
 
 #define STDOUT_C 1
 
-void int2string(usize num, char *str)
+void int2string(usize num, u8 *str)
 {
-    int i = 0;
+    i32 i = 0;
     if (num < 0)
     {
         num = -num;
@@ -19,7 +19,7 @@ void int2string(usize num, char *str)
     } while (num);
     str[i] = '\0';
 
-    int j = 0;
+    i32 j = 0;
     if (str[0] == '-')
     {
         j = 1;
@@ -33,7 +33,7 @@ void int2string(usize num, char *str)
     }
 }
 
-void usize2hex(usize value, char *buffer)
+void usize2hex(usize value, u8 *buffer)
 {
     if (value == 0)
     {
@@ -41,11 +41,11 @@ void usize2hex(usize value, char *buffer)
         return;
     }
 
-    int i = 0;
+    i32 i = 0;
 
     while (value > 0)
     {
-        int remainder = value % 16;
+        i32 remainder = value % 16;
         buffer[i++] = (remainder < 10) ? ('0' + remainder) : ('A' + remainder - 10);
         value /= 16;
     }
@@ -55,36 +55,36 @@ void usize2hex(usize value, char *buffer)
     buffer[i++] = '\0';
 
 
-    for (int j = 0, k = i - 2; j < k; j++, k--)
+    for (i32 j = 0, k = i - 2; j < k; j++, k--)
     {
-        char temp = buffer[j];
+        u8 temp = buffer[j];
         buffer[j] = buffer[k];
         buffer[k] = temp;
     }
 }
 
-void print(char *format, ...)
+void print(u8 *format, ...)
 {
     va_list arg;
     va_start(arg, format);
 
     while (*format)
     {
-        char ret = *format;
+        u8 ret = *format;
         if (ret == '%')
         {
             switch (*++format)
             {
             case 'c':
             {
-                char ch = va_arg(arg, int);
+                u8 ch = va_arg(arg, i32);
                 console_putchar(ch);
                 format++;
                 break;
             }
             case 's':
             {
-                char *pc = va_arg(arg, char *);
+                u8 *pc = va_arg(arg, u8*);
                 while (*pc)
                 {
                     console_putchar(*(pc++));
@@ -95,9 +95,9 @@ void print(char *format, ...)
             case 'x':
             {
                 usize d = va_arg(arg, usize);
-                char s[20];
+                u8 s[20];
                 usize2hex(d, s);
-                int i = 0;
+                i32 i = 0;
                 while (s[i] != '\0')
                 {
                     console_putchar(s[i]);
@@ -108,10 +108,10 @@ void print(char *format, ...)
             }
             case 'd':
             {
-                int d = va_arg(arg, int);
-                char s[20];
+                i32 d = va_arg(arg, i32);
+                u8 s[20];
                 int2string(d, s);
-                int i = 0;
+                i32 i = 0;
                 while (s[i] != '\0')
                 {
                     console_putchar(s[i]);
@@ -132,28 +132,28 @@ void print(char *format, ...)
     va_end(arg);
 }
 
-void println(char *format, ...)
+void println(u8 *format, ...)
 {
     va_list arg;
     va_start(arg, format);
 
     while (*format)
     {
-        char ret = *format;
+        u8 ret = *format;
         if (ret == '%')
         {
             switch (*++format)
             {
             case 'c':
             {
-                char ch = va_arg(arg, int);
+                u8 ch = va_arg(arg, i32);
                 console_putchar(ch);
                 format++;
                 break;
             }
             case 's':
             {
-                char *pc = va_arg(arg, char *);
+                u8 *pc = va_arg(arg, u8*);
                 while (*pc)
                 {
                     console_putchar(*(pc++));
@@ -164,8 +164,8 @@ void println(char *format, ...)
             case 'x':
             {
                 usize d = va_arg(arg, usize);
-                char s[20];
-                char *sp = s;
+                u8 s[20];
+                u8 *sp = s;
                 usize2hex(d, s);
                 while (*sp)
                 {
@@ -176,9 +176,9 @@ void println(char *format, ...)
             }
             case 'd':
             {
-                int d = va_arg(arg, usize);
-                char s[20];
-                char *sp = s;
+                i32 d = va_arg(arg, usize);
+                u8 s[20];
+                u8 *sp = s;
                 int2string(d, s);
                 while (*sp)
                 {

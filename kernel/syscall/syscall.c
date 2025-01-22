@@ -17,7 +17,7 @@ isize sysycall(usize syscall_id, usize args[3])
     }
     case SYSCALL_EXIT:
     {
-        sys_exit((int)args[0]);
+        sys_exit(args[0]);
         break;
     }
     }

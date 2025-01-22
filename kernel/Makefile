@@ -1,5 +1,7 @@
 # OS
 CC := riscv64-unknown-elf-gcc
+GDB := /usr/bin/gdb-multiarch
+READ_ELF := /usr/lib/riscv64-unknown-elf/bin/readelf
 QEMU_NAME := qemu-system-riscv64
 KERNEL_ELF := ./target/os.elf
 KERNEL_BIN := ./target/os.bin
@@ -10,6 +12,7 @@ QEMU_ARGS := -machine virt \
 			 -kernel $(KERNEL_BIN)
 
 CC_ARGS := -I include \
+           -g \
            -march=rv64gc_zifencei \
 		   -ffreestanding \
 		   -fno-pie \
@@ -45,7 +48,7 @@ gdbserver: qemu-version-check build
 	@qemu-system-riscv64 $(QEMU_ARGS) -s -S
 
 gdbclient:
-	@riscv64-unknown-elf-gdb -ex 'file $(KERNEL_ELF)' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'
+	@$(GDB) -ex 'file $(KERNEL_ELF)' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'
 
 clean:
 	rm -rf ./build/*

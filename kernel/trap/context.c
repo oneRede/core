@@ -9,7 +9,7 @@ void set_sp(TrapContext *tc, usize sp)
 
 TrapContext app_init_context(usize entry, usize sp)
 {
-    unsigned long sstatus = 0;
+    usize sstatus = 0;
     __asm__ volatile(
         "csrw sstatus, %0\n\t"
         :

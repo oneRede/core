@@ -4,14 +4,14 @@
 #include "batch.h"
 #include "mem_opt.h"
  
-extern int ebss();
-extern int sbss();
+extern i32 ebss();
+extern i32 sbss();
 
 void clear_bss(){
-    memset((usize*)sbss, 0, (usize)ebss - (usize)sbss);
+    memset(sbss, 0, (usize)ebss - (usize)sbss);
 }
 
-int os_main()
+i32 os_main()
 {
     println("[Kernel] Hello World!!");
     clear_bss();

@@ -12,8 +12,8 @@ extern void __alltraps();
 
 void trap_init()
 {
-    unsigned long base_address = (usize)__alltraps;
-    unsigned long stvec_value = base_address;
+    usize base_address = (usize)__alltraps;
+    usize stvec_value = base_address;
 
     asm volatile(
         "csrw stvec, %0\n"

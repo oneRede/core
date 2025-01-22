@@ -11,7 +11,7 @@
 #define APP_SIZE_LIMIT 0x20000
 
 extern void _num_app();
-extern int __restore(usize cx_addr);
+extern i32 __restore(usize cx_addr);
 
 typedef struct
 {

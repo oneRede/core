@@ -19,10 +19,10 @@ void memcpy(void *dst, const void *src, usize num)
         *d++ = *s++;
 }
 
-void memset(void *s, int c, usize n)
+void memset(void *s, u8 c, usize n)
 {
-    const unsigned char uc = c;
-    unsigned char *su;
+    const u8 uc = c;
+    u8 *su;
     for (su = s; 0 < n; ++su, --n)
         *su = uc;
 }

@@ -10,7 +10,6 @@ extern void __alltraps();
 #define USER_ENV_CALL 8
 #define STORE_PAGE_FAULT 15
 
-
 void trap_init()
 {
     unsigned long base_address = (usize)__alltraps;

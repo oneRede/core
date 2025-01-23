@@ -3,6 +3,8 @@
 #include "trap/trap.h"
 #include "mem_opt.h"
 #include "loader.h"
+#include "timer.h"
+#include "task/task.h"
  
 extern i32 ebss();
 extern i32 sbss();
@@ -17,6 +19,9 @@ i32 os_main()
     clear_bss();
     trap_init();
     load_apps();
+    enable_timer_interrupt();
+    set_next_trigger();
+    run_first_task();
     println("[Kernel] ShutDown!!");
     shutdown();
 }

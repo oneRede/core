@@ -1,7 +1,6 @@
 #include "trap/context.h"
 #include "syscall/syscall.h"
 #include "console.h"
-#include "batch.h"
 #include "task/task.h"
 #include "timer.h"
 
@@ -55,13 +54,13 @@ TrapContext *trap_handler(TrapContext *cx)
     case STORE_PAGE_FAULT:
     {
         println("[kernel] PageFault in application, kernel killed it.");
-        run_next_app();
+        exit_current_and_run_next();
         break;
     }
     case ILLEGAL_INSTRUCTION:
     {
         println("[kernel] IllegalInstruction in application, kernel killed it.");
-        run_next_app();
+        exit_current_and_run_next();
         break;
     }
     case SUPERVISORTIMER:

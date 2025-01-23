@@ -1,8 +1,8 @@
 #include "sbi.h"
 #include "console.h"
 #include "trap/trap.h"
-#include "batch.h"
 #include "mem_opt.h"
+#include "loader.h"
  
 extern i32 ebss();
 extern i32 sbss();
@@ -16,8 +16,7 @@ i32 os_main()
     println("[Kernel] Hello World!!");
     clear_bss();
     trap_init();
-    batch_init();
-    run_next_app();
+    load_apps();
     println("[Kernel] ShutDown!!");
     shutdown();
 }

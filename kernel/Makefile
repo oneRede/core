@@ -22,7 +22,7 @@ CC_ARGS := -I include \
 		   -mcmodel=medany \
 		   -mabi=lp64
 
-SOURCE_FILE := ./asm/*.s main.c trap/*.c syscall/*.c task/*.c batch.c sbi.c console.c mem_opt.c timer.c loader.c
+SOURCE_FILE := ./asm/*.s main.c trap/*.c syscall/*.c task/*.c sbi.c console.c mem_opt.c timer.c loader.c
 OUT_FILE := -o ./target/os.elf
 LINKER_FILE := -T ./asm/linker-qemu.ld
 

@@ -38,8 +38,9 @@ usize get_user_sp(usize app_id)
     return (usize)USER_STACK[app_id].data + USER_STACK_SIZE;
 };
 
-usize get_base_i(usize app_id){
-    APP_BASE_ADDRESS + app_id * APP_SIZE_LIMIT;
+usize get_base_i(usize app_id)
+{
+    APP_BASE_ADDRESS + app_id *APP_SIZE_LIMIT;
 }
 
 usize get_num_app()
@@ -53,7 +54,7 @@ void load_apps()
     usize num_app = get_num_app();
     usize start1 = *(usize *)(_num_app + 8);
     usize end1 = *(usize *)(_num_app + 16);
-    usize app_addr[MAX_APP_NUM+1] = {0};
+    usize app_addr[MAX_APP_NUM + 1] = {0};
 
     memcpy(app_addr, num_app_ptr + 1, 8 * (num_app + 1));
 
@@ -68,7 +69,8 @@ void load_apps()
     }
 }
 
-usize init_app_cx(usize app_id) {
+usize init_app_cx(usize app_id)
+{
     TrapContext tc = app_init_context(get_base_i(app_id), get_user_sp(app_id));
     usize cx_addr = (usize)push_kernel_context(app_id, tc);
     return cx_addr;

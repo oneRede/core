@@ -46,8 +46,7 @@ usize get_kernel_sp()
 
 TrapContext *push_kernel_context(TrapContext cx)
 {
-    
-    TrapContext* cx_ptr = (TrapContext *)(get_kernel_sp() - sizeof(TrapContext));
+    TrapContext *cx_ptr = (TrapContext *)(get_kernel_sp() - sizeof(TrapContext));
     *cx_ptr = cx;
     return cx_ptr;
 }
@@ -68,6 +67,7 @@ void print_app_info()
             AM.app_start[i + 1]);
     }
 }
+
 void load_app(usize app_id)
 {
     if (app_id > AM.num_app - 1)
@@ -77,9 +77,9 @@ void load_app(usize app_id)
         shutdown();
     }
     println("[kernel] Loading app_%d", app_id);
-    u8 * ptr_app_base = (u8 *)APP_BASE_ADDRESS;
+    u8 *ptr_app_base = (u8 *)APP_BASE_ADDRESS;
     memset(ptr_app_base, 0, APP_SIZE_LIMIT);
-    u8 * app_src = (u8 *)(AM.app_start[app_id]);
+    u8 *app_src = (u8 *)(AM.app_start[app_id]);
 
     memcpy(ptr_app_base, app_src, AM.app_start[app_id + 1] - AM.app_start[app_id]);
     asm volatile("fence.i" :::);
@@ -125,3 +125,5 @@ void run_next_app()
 
     println("Unreachable in batch::run_current_app!");
 }
+
+

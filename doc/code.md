@@ -9,3 +9,6 @@
 8. 编译工具链（编译器、链接器、ELF工具等）
 9. Makefile、Cmake
 10. GDB调试
+
+# Atten
+1. 项目总体结构

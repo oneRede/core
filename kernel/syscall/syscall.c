@@ -1,10 +1,13 @@
 #include "type.h"
+#include "sbi.h"
 #include "console.h"
 #include "syscall/fs.h"
 #include "syscall/process.h"
 
 #define SYSCALL_WRITE 64
 #define SYSCALL_EXIT 93
+#define SYSCALL_YIELD 124
+#define SYSCALL_GET_TIME 169
 
 isize sysycall(usize syscall_id, usize args[3])
 {   
@@ -19,6 +22,16 @@ isize sysycall(usize syscall_id, usize args[3])
     {
         sys_exit(args[0]);
         break;
+    }
+    case SYSCALL_YIELD:
+    {
+        sys_yield();
+        break;
+    }
+    case SYSCALL_GET_TIME:
+    {
+        isize ts = sys_get_time();
+        return ts;
     }
     }
 }

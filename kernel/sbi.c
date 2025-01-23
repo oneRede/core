@@ -1,6 +1,9 @@
 #include "type.h"
 #include "sbi.h"
 
+#define MTIMECMP_ADDRESS 0x02004000
+
+#define SBI_ECALL_TIMER_READ 0
 #define SBI_CONSOLE_PUTCHAR 1
 #define SBI_CONSOLE_GETCHAR 2
 #define SBI_SHUTDOWN 8
@@ -26,9 +29,18 @@ void console_putchar(u8 c)
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }
 
-u64 console_getchar(i32 c)
-{
-    sbi_call(SBI_CONSOLE_GETCHAR, 0, 0, 0);
+isize sys_get_time() {
+    isize mtime = sbi_call(SBI_CONSOLE_PUTCHAR, 0, 0, 0);
+    return mtime;
+}
+
+void set_timer(usize value) {
+    asm volatile (
+        "sd %0, 0(%1)"
+        :
+        : "r" (value), "r" (MTIMECMP_ADDRESS)
+        : "memory"
+    );
 }
 
 void shutdown() {

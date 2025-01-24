@@ -1,12 +1,9 @@
 #include "type.h"
 #include "sbi.h"
-#include "trap/context.h"
 #include "console.h"
 #include "mem_opt.h"
 #include "config.h"
-
-extern void _num_app();
-extern i32 __restore(usize cx_addr);
+#include "loader.h"
 
 typedef struct KernelStack
 {

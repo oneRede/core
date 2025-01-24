@@ -12,3 +12,6 @@ usize get_base_i(usize app_id);
 usize get_num_app();
 void load_apps();
 usize init_app_cx(usize app_id);
+
+extern void _num_app();
+extern i32 __restore(usize cx_addr);

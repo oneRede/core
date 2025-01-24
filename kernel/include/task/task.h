@@ -27,3 +27,5 @@ isize find_next_task();
 void run_next_task();
 void suspend_current_and_run_next();
 void exit_current_and_run_next();
+
+void init_task_manager();

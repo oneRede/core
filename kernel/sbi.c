@@ -3,7 +3,7 @@
 
 #define MTIMECMP_ADDRESS 0x02004000
 
-#define SBI_ECALL_TIMER_READ 0
+#define SBI_SET_TIMER 0
 #define SBI_CONSOLE_PUTCHAR 1
 #define SBI_CONSOLE_GETCHAR 2
 #define SBI_SHUTDOWN 8
@@ -30,17 +30,13 @@ void console_putchar(u8 c)
 }
 
 isize sys_get_time() {
-    isize mtime = sbi_call(SBI_CONSOLE_PUTCHAR, 0, 0, 0);
-    return mtime;
+    usize time = 0;
+    asm volatile ("csrr %0, 0xc01" : "=r" (time));
+    return time;
 }
 
 void set_timer(usize value) {
-    asm volatile (
-        "sd %0, 0(%1)"
-        :
-        : "r" (value), "r" (MTIMECMP_ADDRESS)
-        : "memory"
-    );
+    sbi_call(SBI_SET_TIMER, 0, value, 0);
 }
 
 void shutdown() {

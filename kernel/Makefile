@@ -30,10 +30,10 @@ all: clean build kernel
 	$(QEMU_NAME) $(QEMU_ARGS)
 
 build:
-	$(CC) $(CC_ARGS)  $(OUT_FILE) $(LINKER_FILE) $(SOURCE_FILE)
+	@$(CC) $(CC_ARGS)  $(OUT_FILE) $(LINKER_FILE) $(SOURCE_FILE)
 
 kernel: build
-	/usr/riscv64-linux-gnu/bin/objcopy  -O binary ./target/os.elf  ./target/os.bin
+	@/usr/riscv64-linux-gnu/bin/objcopy  -O binary ./target/os.elf  ./target/os.bin
 
 qemu-version-check:
 	@sh scripts/qemu-ver-check.sh $(QEMU_NAME)
@@ -53,5 +53,6 @@ gdbclient:
 clean:
 	rm -rf ./build/*
 	rm -rf ./log/*
+	
 .PHONY:
 	build kernel run clean

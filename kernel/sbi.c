@@ -3,6 +3,7 @@
 
 #define MTIMECMP_ADDRESS 0x02004000
 
+#define EID_TIME 0x54494D45
 #define SBI_SET_TIMER 0
 #define SBI_CONSOLE_PUTCHAR 1
 #define SBI_CONSOLE_GETCHAR 2
@@ -29,14 +30,14 @@ void console_putchar(u8 c)
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }
 
-isize sys_get_time() {
+usize sys_get_time() {
     usize time = 0;
     asm volatile ("csrr %0, 0xc01" : "=r" (time));
     return time;
 }
 
 void set_timer(usize value) {
-    sbi_call(SBI_SET_TIMER, 0, value, 0);
+    sbi_call(EID_TIME, value, 0, 0);
 }
 
 void shutdown() {

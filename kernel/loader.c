@@ -37,7 +37,7 @@ usize get_user_sp(usize app_id)
 
 usize get_base_i(usize app_id)
 {
-    APP_BASE_ADDRESS + app_id *APP_SIZE_LIMIT;
+    return (usize)APP_BASE_ADDRESS + app_id * (usize)APP_SIZE_LIMIT;
 }
 
 usize get_num_app()
@@ -49,21 +49,30 @@ void load_apps()
 {
     usize *num_app_ptr = (usize *)(_num_app);
     usize num_app = get_num_app();
+    println("[Kernel] APP Num: %x!!", num_app);
     usize start1 = *(usize *)(_num_app + 8);
+    println("[Kernel] Start Addr: %x!!", start1);
     usize end1 = *(usize *)(_num_app + 16);
+    println("[Kernel] End Addr: %x!!", end1);
     usize app_addr[MAX_APP_NUM + 1] = {0};
 
     memcpy(app_addr, num_app_ptr + 1, 8 * (num_app + 1));
-
+    println("[Kernel] App Copy Done!!");
+    println("Num: %x", 0x80400000 + 0x20000);
     for (i32 i = 0; i < num_app; i++)
     {
+        println("[Kernel] i: %d!!", i);
         usize base_i = get_base_i(i);
-        memset((u8 *)base_i, 0, APP_SIZE_LIMIT);
+        println("[Kernel] Base Addr: %x!!", base_i);
+        u8* base_ptr = (u8*) base_i;
+        memset(base_ptr, 0, APP_SIZE_LIMIT);
+        println("[Kernel] Memset Done!!");
         u8 *app_src = (u8 *)(app_addr[i]);
 
         memcpy((u8 *)base_i, app_src, app_addr[i + 1] - app_addr[i]);
         asm volatile("fence.i" :::);
     }
+    println("Load App Done!!");
 }
 
 usize init_app_cx(usize app_id)

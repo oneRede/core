@@ -1,4 +1,4 @@
-CC := riscv64-unknown-elf-gcc
+CC := /usr/bin/riscv64-unknown-elf-gcc
 CC_ARGS := -I include \
            -ffreestanding \
 		   -fno-pie \
@@ -16,7 +16,7 @@ elf:
 	@$(foreach num,$(APPS), $(CC)  $(CC_ARGS) $(LINKER_ARG) -o ./target/0$(num).elf console.c syscall.c bin/0$(num).c;)
 
 kernel: elf
-	@$(foreach num,$(APPS), /usr/riscv64-linux-gnu/bin/objcopy  -O binary ./target/0$(num).elf  ./target/0$(num).bin;)
+	@$(foreach num,$(APPS), /usr/lib/riscv64-unknown-elf/bin/objcopy  -O binary ./target/0$(num).elf  ./target/0$(num).bin;)
 
 clean:
 	@rm -rf target/*

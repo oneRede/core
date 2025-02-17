@@ -7,7 +7,6 @@
 .endm
     .section .text
     .globl __switch
-    .align 2
 __switch:
     # __switch(
     #     current_task_cx_ptr: *mut TaskContext,
@@ -32,4 +31,3 @@ __switch:
     # restore kernel stack of next task
     ld sp, 8(a1)
     ret
-

@@ -29,7 +29,7 @@ void enable_timer_interrupt()
     asm volatile(
         "csrs sie, %0"
         :
-        : "r"(1 << 5)
+        : "r"(0x20)
         : "memory");
 }
 
@@ -65,7 +65,7 @@ TrapContext *trap_handler(TrapContext *cx)
     }
     case SUPERVISORTIMER:
     {
-        set_next_trigger();
+        // set_next_trigger();
         suspend_current_and_run_next();
         break;
     }

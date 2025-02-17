@@ -11,17 +11,12 @@ TaskManager TM;
 void run_first_task()
 {
     init_task_manager();
-    println("Init Task Manager Done!!!");
     TaskControlBlock task0 = TM.inner.tasks[0];
     task0.task_status = Running;
-    println("Init Task Status Done!!!");
+
     TaskContext *next_task_cx_ptr = &task0.task_cx;
     TaskContext tc = task_zero_init();
-    println("Zero Task Status Done!!!");
-    println("RA:%x", next_task_cx_ptr->ra);
-    println("SP:%x", next_task_cx_ptr->sp);
     __switch(&tc, next_task_cx_ptr);
-    println("First Task Done!!!");
 }
 
 void mark_current_suspended()
@@ -83,7 +78,6 @@ void exit_current_and_run_next()
 
 void init_task_manager()
 {
-    println("Init Task Manager!!!!");
     usize num_app = get_num_app();
 
     for (i32 i = 0; i < MAX_APP_NUM; i++)

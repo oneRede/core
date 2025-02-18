@@ -17,6 +17,7 @@ void run_first_task()
     TaskContext *next_task_cx_ptr = &task0.task_cx;
     TaskContext tc = task_zero_init();
     __switch(&tc, next_task_cx_ptr);
+    println("interrupt time: %d", get_time_ms());
 }
 
 void mark_current_suspended()
@@ -59,6 +60,7 @@ void run_next_task()
     }
     else
     {
+        println("interrupt time: %d", get_time_ms());
         println("All applications completed!");
         shutdown();
     }
@@ -85,7 +87,7 @@ void init_task_manager()
         TM.inner.tasks[i].task_cx = goto_restore(init_app_cx(i));
         TM.inner.tasks[i].task_status = Ready;
     }
-    
+
     TM.num_app = num_app;
     TM.inner.current_task = 0;
 }

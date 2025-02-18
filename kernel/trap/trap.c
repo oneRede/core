@@ -26,10 +26,24 @@ void trap_init()
 
 void enable_timer_interrupt()
 {
-    asm volatile(
-        "csrs sie, %0"
-        :
-        : "r"(0x20)
+    usize mideleg_val = 0;
+    asm volatile("csrr %0, mideleg\n" : "=r"(mideleg_val));
+    println("mideleg value: %x", mideleg_val);
+    usize sie_val = 0;
+
+    // 步骤1：使能定时器中断（STIE = 1 << 5）
+    sie_val = (1 << 5); // STIE 位
+    __asm__ volatile(
+        "csrw sie, %0" // 将 sie_val 写入 sie 寄存器
+        :              /* 无输出操作数 */
+        : "r"(sie_val)
+        : "memory");
+
+    // 步骤2：开启 S 模式全局中断（设置 sstatus.SIE）
+    __asm__ volatile(
+        "csrsi sstatus, 0x2" // 0x2 = 0b10（SIE 位）
+        :                    /* 无输出操作数 */
+        :                    /* 无输入操作数 */
         : "memory");
 }
 
@@ -37,10 +51,10 @@ TrapContext *trap_handler(TrapContext *cx)
 {
     usize stval = 0;
     asm volatile("csrr %0, stval\n" : "=r"(stval));
-    ;
     usize scause = 0;
     asm volatile("csrrs %0, 0x142, x0\n" : "=r"(scause));
 
+    println("trap handler num: %x", scause);
     switch (scause)
     {
     case USER_ENV_CALL:
@@ -65,7 +79,8 @@ TrapContext *trap_handler(TrapContext *cx)
     }
     case SUPERVISORTIMER:
     {
-        // set_next_trigger();
+        println("[kernel] Time Interrupt And Task Change.");
+        set_next_trigger();
         suspend_current_and_run_next();
         break;
     }

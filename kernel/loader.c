@@ -57,14 +57,13 @@ void load_apps()
     for (i32 i = 0; i < num_app; i++)
     {
         usize base_i = get_base_i(i);
-        u8* base_ptr = (u8*) base_i;
+        u8 *base_ptr = (u8 *)base_i;
         memset(base_ptr, 0, APP_SIZE_LIMIT);
         u8 *app_src = (u8 *)(app_addr[i]);
 
         memcpy((u8 *)base_i, app_src, app_addr[i + 1] - app_addr[i]);
         asm volatile("fence.i" :::);
     }
-
 }
 
 usize init_app_cx(usize app_id)

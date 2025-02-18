@@ -1,5 +1,6 @@
 #include "type.h"
 #include "sbi.h"
+#include "timer.h"
 
 #define MTIMECMP_ADDRESS 0x02004000
 
@@ -30,9 +31,16 @@ void console_putchar(u8 c)
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }
 
-usize sys_get_time() {
+usize get_time() {
     usize time = 0;
     asm volatile ("csrr %0, 0xc01" : "=r" (time));
+    return time;
+}
+
+usize get_time_ms() {
+    usize time = 0;
+    asm volatile ("csrr %0, 0xc01" : "=r" (time));
+    time = time / (CLOCK_FREQ / MSEC_PER_SEC);
     return time;
 }
 

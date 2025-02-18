@@ -30,7 +30,7 @@ isize sysycall(usize syscall_id, usize args[3])
     }
     case SYSCALL_GET_TIME:
     {
-        isize ts = sys_get_time();
+        isize ts = get_time_ms();
         return ts;
     }
     }

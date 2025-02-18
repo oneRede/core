@@ -3,3 +3,5 @@
 
 # qemu
 1. git clone https://github.com/qemu/qemu.git
+2. ./configure --target-list=riscv64-softmmu,riscv64-linux-user
+3. make

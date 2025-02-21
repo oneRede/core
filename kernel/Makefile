@@ -1,9 +1,9 @@
 # OS
-CC := /usr/bin/riscv64-unknown-elf-gcc
-GDB := /usr/bin/gdb-multiarch
-READ_ELF := /usr/lib/riscv64-unknown-elf/bin/readelf
-QEMU_NAME := /soft/qemu/build/qemu-system-riscv64
-OBJCOPY := /usr/lib/riscv64-unknown-elf/bin/objcopy
+CC := riscv64-unknown-elf-gcc
+GDB := riscv64-unknown-elf-gdb
+READ_ELF := riscv64-unknown-elf-readelf
+QEMU_NAME := qemu-system-riscv64
+OBJCOPY := riscv64-unknown-elf-objcopy
 KERNEL_ELF := ./target/os.elf
 KERNEL_BIN := ./target/os.bin
 
